@@ -19,7 +19,6 @@ public class EmployeeAdminController {
 
     @PostMapping
     public ResponseEntity<EmployeeDetailsDTO> createEmployee(@RequestBody EmployeeDetailsDTO employeeDetailsDTO){
-        System.out.println("some changes");
         employeeService.createEmployee(employeeDetailsDTO.to(employeeDetailsDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

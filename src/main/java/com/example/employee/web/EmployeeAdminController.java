@@ -19,7 +19,7 @@ public class EmployeeAdminController {
 
     @PostMapping
     public ResponseEntity<EmployeeDetailsDTO> createEmployee(@RequestBody EmployeeDetailsDTO employeeDetailsDTO){
-        employeeService.createEmployee(employeeDetailsDTO.to(employeeDetailsDTO));
+        employeeService.createEmployee(EmployeeDetailsDTO.to(employeeDetailsDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

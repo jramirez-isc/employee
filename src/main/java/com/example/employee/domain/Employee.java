@@ -1,6 +1,6 @@
 package com.example.employee.domain;
 
-import com.example.employee.web.schema.EmailDTO;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.Entity;
@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name="employee")
 public class Employee {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String phone;
     private String gender;

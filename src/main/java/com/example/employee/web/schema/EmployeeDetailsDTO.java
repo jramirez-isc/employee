@@ -53,13 +53,13 @@ public class EmployeeDetailsDTO {
         return new Builder();
     }
 
-    public Employee to(EmployeeDetailsDTO employeeDetailsDTO){
+    public static Employee to(EmployeeDetailsDTO employeeDetailsDTO){
         List<Email> emailList = Collections.emptyList();
         if(!employeeDetailsDTO.getEmailDTO().isEmpty()){
             emailList = employeeDetailsDTO.getEmailDTO().stream().map(EmailDTO::to).collect(Collectors.toList());
         }
 
-        return Employee.builder().setPhone(this.phoneNumber).setGender(this.gender).setEmail(emailList).setAddress(AddressDTO.to(this.getAddress())).build();
+        return Employee.builder().setPhone(employeeDetailsDTO.phoneNumber).setGender(employeeDetailsDTO.gender).setEmail(emailList).setAddress(AddressDTO.to(employeeDetailsDTO.getAddress())).build();
     }
 
     public static class Builder {

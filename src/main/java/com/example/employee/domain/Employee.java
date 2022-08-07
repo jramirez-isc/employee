@@ -1,6 +1,5 @@
 package com.example.employee.domain;
 
-import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.Entity;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="employee")
 public class Employee {
 
     @Id
@@ -22,17 +20,17 @@ public class Employee {
     private String phone;
     private String gender;
 
-    @OneToMany
+    /*@OneToMany
     private List<Email> email;
 
     @OneToOne
-    private Address address;
+    private Address address;*/
 
-    public Employee(String phone, String gender, List<Email> email, Address address) {
+    public Employee(String phone, String gender) {
         this.phone = phone;
         this.gender = gender;
-        this.email = CollectionUtils.isEmpty(email) ? new ArrayList<>() : email;
-        this.address = address;
+        /*this.email = CollectionUtils.isEmpty(email) ? new ArrayList<>() : email;
+        this.address = address;*/
     }
 
     public Employee() {
@@ -50,47 +48,15 @@ public class Employee {
         return gender;
     }
 
-    public List<Email> getEmail() {
-        return email;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Address getAddress() {
-        return address;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public static Builder builder(){
-        return new Builder();
-    }
-
-    public static class Builder {
-
-        private String phone;
-        private String gender;
-        private List<Email> email;
-        private Address address;
-
-        public Builder setPhone(String phone) {
-            this.phone = phone;
-            return this;
-        }
-
-        public Builder setGender(String gender) {
-            this.gender = gender;
-            return this;
-        }
-
-        public Builder setEmail(List<Email> email) {
-            this.email = email;
-            return this;
-        }
-
-        public Builder setAddress(Address address) {
-            this.address = address;
-            return this;
-        }
-
-        public Employee build(){
-            return new Employee(this.phone, this.gender, this.email, this.address);
-        }
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

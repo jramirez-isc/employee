@@ -19,14 +19,14 @@ public class EmployeeDetailsDTO {
 
     private final AddressDTO address;
 
-    private final String phoneNumber;
+    private final String phone;
 
-    private EmployeeDetailsDTO(NameDTO names, String gender, List<EmailDTO> emailDTO, AddressDTO address, String phoneNumber) {
+    private EmployeeDetailsDTO(NameDTO names, String gender, List<EmailDTO> emailDTO, AddressDTO address, String phone) {
         this.names = names;
         this.gender = gender;
         this.emailDTO = CollectionUtils.isEmpty(emailDTO) ? new ArrayList<>() : emailDTO;
         this.address = address;
-        this.phoneNumber = phoneNumber;
+        this.phone = phone;
     }
 
     public NameDTO getNames() {
@@ -45,8 +45,8 @@ public class EmployeeDetailsDTO {
         return address;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone() {
+        return phone;
     }
 
     public Builder builder(){
@@ -59,7 +59,7 @@ public class EmployeeDetailsDTO {
             emailList = employeeDetailsDTO.getEmailDTO().stream().map(EmailDTO::to).collect(Collectors.toList());
         }
 
-        return Employee.builder().setPhone(employeeDetailsDTO.phoneNumber).setGender(employeeDetailsDTO.gender).setEmail(emailList).setAddress(AddressDTO.to(employeeDetailsDTO.getAddress())).build();
+        return new Employee(employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender());
     }
 
     public static class Builder {

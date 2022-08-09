@@ -15,16 +15,17 @@ public class EmployeeDetailsDTO {
 
     private final String gender;
 
-    private final List<EmailDTO> emailDTO;
+    private final List<EmailDTO> email;
 
     private final AddressDTO address;
 
     private final String phone;
 
-    private EmployeeDetailsDTO(NameDTO names, String gender, List<EmailDTO> emailDTO, AddressDTO address, String phone) {
+
+    private EmployeeDetailsDTO(NameDTO names, String gender, List<EmailDTO> email, AddressDTO address, String phone) {
         this.names = names;
         this.gender = gender;
-        this.emailDTO = CollectionUtils.isEmpty(emailDTO) ? new ArrayList<>() : emailDTO;
+        this.email = CollectionUtils.isEmpty(email) ? new ArrayList<>() : email;
         this.address = address;
         this.phone = phone;
     }
@@ -37,8 +38,8 @@ public class EmployeeDetailsDTO {
         return gender;
     }
 
-    public List<EmailDTO> getEmailDTO() {
-        return emailDTO;
+    public List<EmailDTO> getEmail() {
+        return email;
     }
 
     public AddressDTO getAddress() {
@@ -55,11 +56,12 @@ public class EmployeeDetailsDTO {
 
     public static Employee to(EmployeeDetailsDTO employeeDetailsDTO){
         List<Email> emailList = Collections.emptyList();
-        if(!employeeDetailsDTO.getEmailDTO().isEmpty()){
-            emailList = employeeDetailsDTO.getEmailDTO().stream().map(EmailDTO::to).collect(Collectors.toList());
+        if(!employeeDetailsDTO.getEmail().isEmpty()){
+            emailList = employeeDetailsDTO.getEmail().stream().map(EmailDTO::to).collect(Collectors.toList());
         }
 
-        return new Employee(employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender());
+        return new Employee(employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender(),
+                AddressDTO.to(employeeDetailsDTO.getAddress()), NameDTO.to(employeeDetailsDTO.getNames()), emailList);
     }
 
     public static class Builder {

@@ -2,6 +2,7 @@ package com.example.employee.domain;
 
 import com.example.employee.web.schema.State;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,24 +21,27 @@ public class Address {
 
     private String postalCode;
 
+    @Embedded
     private AddressLines addressLines;
-
-    public Address(Long id, String city, State state, String postalCode, AddressLines addressLines) {
-        this.id = id;
-        this.city = city;
-        this.state = state;
-        this.postalCode = postalCode;
-        this.addressLines = addressLines;
-    }
-
-    public Address() {
-    }
 
     public Address(String city, State state, String postalCode, AddressLines addressLines) {
         this.city = city;
         this.state = state;
         this.postalCode = postalCode;
         this.addressLines = addressLines;
+    }
+
+    /*@Embedded
+        private AddressLines addressLines;
+    */
+    public Address(Long id, String city, State state, String postalCode) {
+        this.id = id;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+    }
+
+    public Address() {
     }
 
 
@@ -65,13 +69,13 @@ public class Address {
         this.postalCode = postalCode;
     }
 
-    public AddressLines getAddressLines() {
+    /*public AddressLines getAddressLines() {
         return addressLines;
     }
 
     public void setAddressLines(AddressLines addressLines) {
         this.addressLines = addressLines;
-    }
+    }*/
 
     public void setId(Long id) {
         this.id = id;

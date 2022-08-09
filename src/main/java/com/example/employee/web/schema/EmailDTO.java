@@ -4,21 +4,21 @@ import com.example.employee.domain.Email;
 
 public class EmailDTO {
 
-    private final String emailAddress;
+    private final String address;
 
-    private final EmailType emailType;
+    private final EmailType type;
 
-    private EmailDTO(String emailAddress, EmailType emailType) {
-        this.emailAddress = emailAddress;
-        this.emailType = emailType;
+    public EmailDTO(String address, EmailType type) {
+        this.address = address;
+        this.type = type;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public EmailType getEmailType() {
-        return emailType;
+    public EmailType getType() {
+        return type;
     }
 
     public static Builder builder(){
@@ -26,7 +26,7 @@ public class EmailDTO {
     }
 
     public static Email to(EmailDTO emailDTO){
-        return new Email(emailDTO.getEmailAddress(), emailDTO.getEmailType());
+        return new Email(emailDTO.getAddress(), emailDTO.getType());
     }
 
     public static class Builder {

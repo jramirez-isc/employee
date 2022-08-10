@@ -1,0 +1,33 @@
+{
+	"info": {
+		"_postman_id": "a09f1745-ce46-4c1d-b9c5-0389f2f2e549",
+		"name": "Employee Profile",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8895452"
+	},
+	"item": [
+		{
+			"name": "Create new employee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"names\":\n        {\n            \"first\": \"Test\",\n            \"last\": \"Test\"\n        },\n    \"gender\": \"female\",    \n    \"address\": {\n        \"city\": \"TestCity\",\n        \"state\": \"DF\",\n        \"postalCode\": \"04230\",\n        \"addressLines\": \n            {\n                \"exterior\": 100,\n                \"street\": \"200 Test Rd\"\n            }\n    },\n    \"dateOfBirth\": \"2010-02-02\",\n    \"email\": [\n        {\n            \"address\": \"personprofilepostmantest@test.test\",\n            \"type\": \"PERSONAL\"\n        }\n    ],\n    \"phone\": \"(208)-867-5309\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{loadbalancer}}",
+					"host": [
+						"{{loadbalancer}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -60,8 +60,10 @@ public class EmployeeDetailsDTO {
             emailList = employeeDetailsDTO.getEmail().stream().map(EmailDTO::to).collect(Collectors.toList());
         }
 
-        return new Employee(employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender(),
+        Employee emp = new Employee(employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender(),
                 AddressDTO.to(employeeDetailsDTO.getAddress()), NameDTO.to(employeeDetailsDTO.getNames()), emailList);
+        emp.getEmail().forEach(email1 -> email1.setEmployee(emp));
+        return emp;
     }
 
     public static class Builder {

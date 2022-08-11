@@ -33,13 +33,16 @@ public class Employee {
 
     private String dateOfBirth;
 
-    public Employee(String phone, String gender, Address address, Name name, List<Email> email, String dateOfBirth) {
+    private boolean isDeleted;
+
+    public Employee(String phone, String gender, Address address, Name name, List<Email> email, String dateOfBirth, boolean isDeleted) {
         this.phone = phone;
         this.gender = gender;
         this.email = CollectionUtils.isEmpty(email) ? new ArrayList<>() : email;
         this.address = address;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
+        this.isDeleted = isDeleted;
     }
 
     public Employee() {
@@ -101,5 +104,13 @@ public class Employee {
 
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

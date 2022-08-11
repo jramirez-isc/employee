@@ -2,8 +2,10 @@ package com.example.employee.web.schema;
 
 import com.example.employee.domain.Email;
 import com.example.employee.domain.Employee;
+import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,17 +19,20 @@ public class EmployeeDetailsDTO {
 
     private final List<EmailDTO> email;
 
+    @NotNull(message = "address cannot be null.")
     private final AddressDTO address;
 
     private final String phone;
 
+    private final String dateOfBirth;
 
-    private EmployeeDetailsDTO(NameDTO names, String gender, List<EmailDTO> email, AddressDTO address, String phone) {
+    private EmployeeDetailsDTO(NameDTO names, String gender, List<EmailDTO> email, AddressDTO address, String phone, String dateOfBirth) {
         this.names = names;
         this.gender = gender;
         this.email = CollectionUtils.isEmpty(email) ? new ArrayList<>() : email;
         this.address = address;
         this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public NameDTO getNames() {
@@ -50,6 +55,10 @@ public class EmployeeDetailsDTO {
         return phone;
     }
 
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
     public Builder builder(){
         return new Builder();
     }
@@ -61,7 +70,7 @@ public class EmployeeDetailsDTO {
         }
 
         Employee emp = new Employee(employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender(),
-                AddressDTO.to(employeeDetailsDTO.getAddress()), NameDTO.to(employeeDetailsDTO.getNames()), emailList);
+                AddressDTO.to(employeeDetailsDTO.getAddress()), NameDTO.to(employeeDetailsDTO.getNames()), emailList, employeeDetailsDTO.dateOfBirth);
         emp.getEmail().forEach(email1 -> email1.setEmployee(emp));
         return emp;
     }
@@ -77,6 +86,8 @@ public class EmployeeDetailsDTO {
         private AddressDTO address;
 
         private String phoneNumber;
+
+        private String dateOfBirth;
 
         public Builder setNames(NameDTO names) {
             this.names = names;
@@ -103,8 +114,13 @@ public class EmployeeDetailsDTO {
             return this;
         }
 
+        public Builder setDateOfBirth(String dateOfBirth) {
+            this.dateOfBirth = dateOfBirth;
+            return this;
+        }
+
         public EmployeeDetailsDTO build(){
-            return new EmployeeDetailsDTO(this.names, this.gender, this.emailDTO, this.address, this.phoneNumber);
+            return new EmployeeDetailsDTO(this.names, this.gender, this.emailDTO, this.address, this.phoneNumber, this.dateOfBirth);
         }
     }
 }

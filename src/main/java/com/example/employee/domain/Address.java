@@ -4,6 +4,8 @@ import com.example.employee.web.schema.State;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +19,7 @@ public class Address {
 
     private String city;
 
+    @Enumerated(EnumType.STRING)
     private State state;
 
     private String postalCode;
@@ -31,9 +34,6 @@ public class Address {
         this.addressLines = addressLines;
     }
 
-    /*@Embedded
-        private AddressLines addressLines;
-    */
     public Address(Long id, String city, State state, String postalCode) {
         this.id = id;
         this.city = city;
@@ -69,13 +69,13 @@ public class Address {
         this.postalCode = postalCode;
     }
 
-    /*public AddressLines getAddressLines() {
+    public AddressLines getAddressLines() {
         return addressLines;
     }
 
     public void setAddressLines(AddressLines addressLines) {
         this.addressLines = addressLines;
-    }*/
+    }
 
     public void setId(Long id) {
         this.id = id;

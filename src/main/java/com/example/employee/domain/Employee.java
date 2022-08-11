@@ -1,5 +1,6 @@
 package com.example.employee.domain;
 
+import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.CascadeType;
@@ -30,12 +31,15 @@ public class Employee {
     @OneToOne(cascade = {CascadeType.PERSIST})
     private Name name;
 
-    public Employee(String phone, String gender, Address address, Name name, List<Email> email) {
+    private String dateOfBirth;
+
+    public Employee(String phone, String gender, Address address, Name name, List<Email> email, String dateOfBirth) {
         this.phone = phone;
         this.gender = gender;
         this.email = CollectionUtils.isEmpty(email) ? new ArrayList<>() : email;
         this.address = address;
         this.name = name;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Employee() {
@@ -89,5 +93,13 @@ public class Employee {
 
     public void setName(Name name) {
         this.name = name;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

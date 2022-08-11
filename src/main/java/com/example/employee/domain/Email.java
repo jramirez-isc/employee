@@ -2,7 +2,10 @@ package com.example.employee.domain;
 
 import com.example.employee.web.schema.EmailType;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,8 +19,10 @@ public class Email {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(unique = true)
     private String emailAddress;
 
+    @Enumerated(EnumType.STRING)
     private EmailType emailType;
 
     @ManyToOne

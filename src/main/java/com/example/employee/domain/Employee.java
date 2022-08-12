@@ -1,5 +1,8 @@
 package com.example.employee.domain;
 
+import com.example.employee.web.schema.AddressDTO;
+import com.example.employee.web.schema.EmailDTO;
+import com.example.employee.web.schema.EmployeeDetailsDTO;
 import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
@@ -12,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Employee {
@@ -25,7 +29,7 @@ public class Employee {
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "employee")
     private List<Email> email;
 
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.PERSIST}, mappedBy = "employee")
     private Address address;
 
     @OneToOne(cascade = {CascadeType.PERSIST})
@@ -112,5 +116,13 @@ public class Employee {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public static EmployeeDetailsDTO from(Employee employee){
+        return EmployeeDetailsDTO.builder().setNames(Name.from(employee.getName()))
+                .setGender(employee.getGender()).setDateOfBirth(employee.getDateOfBirth()).setPhoneNumber(employee.getPhone())
+                .setAddress(Address.from(employee.getAddress()))
+                .setEmailDTO(employee.getEmail().stream().map(Email::from).collect(Collectors.toList()))
+                .build();
     }
 }

@@ -1,5 +1,7 @@
 package com.example.employee.web.schema;
 
+import com.example.employee.domain.AddressLines;
+
 public class AddressLinesDTO {
 
     private final String exterior;

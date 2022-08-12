@@ -1,5 +1,7 @@
 package com.example.employee.domain;
 
+import com.example.employee.web.schema.NameDTO;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,5 +38,9 @@ public class Name {
 
     public Long getId() {
         return id;
+    }
+
+    public static NameDTO from(Name name){
+        return new NameDTO(name.getFirst(), name.getLast());
     }
 }

@@ -36,7 +36,7 @@ public class AddressDTO {
         return addressLines;
     }
 
-    public Builder build(){
+    public static Builder builder(){
         return new Builder();
     }
 
@@ -80,6 +80,5 @@ public class AddressDTO {
         public AddressDTO build(){
             return new AddressDTO(this.city, this.state, this.postalCode, this.addressLines);
         }
-
     }
 }

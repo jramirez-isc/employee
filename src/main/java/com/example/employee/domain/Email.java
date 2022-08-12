@@ -1,5 +1,6 @@
 package com.example.employee.domain;
 
+import com.example.employee.web.schema.EmailDTO;
 import com.example.employee.web.schema.EmailType;
 
 import javax.persistence.Column;
@@ -67,5 +68,9 @@ public class Email {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public static EmailDTO from(Email email){
+        return new EmailDTO(email.getEmailAddress(), email.getEmailType());
     }
 }

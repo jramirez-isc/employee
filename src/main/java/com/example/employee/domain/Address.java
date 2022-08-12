@@ -1,5 +1,6 @@
 package com.example.employee.domain;
 
+import com.example.employee.web.schema.AddressDTO;
 import com.example.employee.web.schema.State;
 
 import javax.persistence.Embedded;
@@ -9,6 +10,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Address {
@@ -26,6 +30,10 @@ public class Address {
 
     @Embedded
     private AddressLines addressLines;
+
+    @OneToOne
+    @JoinColumn(name="employee_id")
+    private Employee employee;
 
     public Address(String city, State state, String postalCode, AddressLines addressLines) {
         this.city = city;
@@ -83,6 +91,19 @@ public class Address {
 
     public Long getId() {
         return id;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public static AddressDTO from(Address address){
+        return AddressDTO.builder().setCity(address.getCity()).setPostalCode(address.getPostalCode())
+                .setState(address.getState()).setAddressLines(AddressLines.from(address.getAddressLines())).build();
     }
 
     public static Builder builder(){

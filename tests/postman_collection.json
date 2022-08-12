@@ -28,6 +28,107 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Create new another employee",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"names\":\n        {\n            \"first\": \"Test\",\n            \"last\": \"Test\"\n        },\n    \"gender\": \"female\",    \n    \"address\": {\n        \"city\": \"TestCity\",\n        \"state\": \"DF\",\n        \"postalCode\": \"04230\",\n        \"addressLines\": \n            {\n                \"exterior\": 100,\n                \"street\": \"200 Test Rd\"\n            }\n    },\n    \"dateOfBirth\": \"2010-02-02\",\n    \"email\": [\n        {\n            \"address\": \"test@test.test\",\n            \"type\": \"CORPORATE\"\n        }\n    ],\n    \"phone\": \"(208)-867-5309\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{loadbalancer}}",
+					"host": [
+						"{{loadbalancer}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create employee withboth personal and corporate email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"names\":\n        {\n            \"first\": \"Test\",\n            \"last\": \"Test\"\n        },\n    \"gender\": \"female\",    \n    \"address\": {\n        \"city\": \"TestCity\",\n        \"state\": \"DF\",\n        \"postalCode\": \"04230\",\n        \"addressLines\": \n            {\n                \"exterior\": 100,\n                \"street\": \"200 Test Rd\"\n            }\n    },\n    \"dateOfBirth\": \"2010-02-02\",\n    \"email\": [\n        {\n            \"address\": \"testcorporate@test.test\",\n            \"type\": \"CORPORATE\"\n        },\n        {\n            \"address\": \"testpersonal@test.test\",\n            \"type\": \"PERSONAL\"\n        }\n    ],\n    \"phone\": \"(208)-867-5309\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{loadbalancer}}",
+					"host": [
+						"{{loadbalancer}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new employee with null address",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"names\":\n        {\n            \"first\": \"Test\",\n            \"last\": \"Test\"\n        },\n    \"gender\": \"female\",\n    \"dateOfBirth\": \"2010-02-02\",\n    \"email\": [\n        {\n            \"address\": \"personprofilepostmantest@test.test\",\n            \"type\": \"PERSONAL\"\n        }\n    ],\n    \"phone\": \"(208)-867-5309\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{loadbalancer}}",
+					"host": [
+						"{{loadbalancer}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create employees with state",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{loadbalancer}}?state=DF",
+					"host": [
+						"{{loadbalancer}}"
+					],
+					"query": [
+						{
+							"key": "state",
+							"value": "DF"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

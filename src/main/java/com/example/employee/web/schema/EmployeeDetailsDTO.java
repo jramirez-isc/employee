@@ -1,5 +1,6 @@
 package com.example.employee.web.schema;
 
+import com.example.employee.domain.Address;
 import com.example.employee.domain.Email;
 import com.example.employee.domain.Employee;
 import org.springframework.lang.NonNull;
@@ -59,7 +60,7 @@ public class EmployeeDetailsDTO {
         return dateOfBirth;
     }
 
-    public Builder builder(){
+    public static Builder builder(){
         return new Builder();
     }
 
@@ -69,9 +70,12 @@ public class EmployeeDetailsDTO {
             emailList = employeeDetailsDTO.getEmail().stream().map(EmailDTO::to).collect(Collectors.toList());
         }
 
+        Address address = AddressDTO.to(employeeDetailsDTO.getAddress());
+
         Employee emp = new Employee(employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender(),
-                AddressDTO.to(employeeDetailsDTO.getAddress()), NameDTO.to(employeeDetailsDTO.getNames()), emailList, employeeDetailsDTO.dateOfBirth, false);
+                address, NameDTO.to(employeeDetailsDTO.getNames()), emailList, employeeDetailsDTO.dateOfBirth, false);
         emp.getEmail().forEach(email1 -> email1.setEmployee(emp));
+        emp.getAddress().setEmployee(emp);
         return emp;
     }
 

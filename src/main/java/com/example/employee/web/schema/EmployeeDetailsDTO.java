@@ -3,16 +3,19 @@ package com.example.employee.web.schema;
 import com.example.employee.domain.Address;
 import com.example.employee.domain.Email;
 import com.example.employee.domain.Employee;
-import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class EmployeeDetailsDTO {
+
+    @NotNull(message = "employeeID cannot be null.")
+    private final UUID employeeId;
 
     private final NameDTO names;
 
@@ -27,7 +30,8 @@ public class EmployeeDetailsDTO {
 
     private final String dateOfBirth;
 
-    private EmployeeDetailsDTO(NameDTO names, String gender, List<EmailDTO> email, AddressDTO address, String phone, String dateOfBirth) {
+    private EmployeeDetailsDTO(UUID employeeId, NameDTO names, String gender, List<EmailDTO> email, AddressDTO address, String phone, String dateOfBirth) {
+        this.employeeId = employeeId;
         this.names = names;
         this.gender = gender;
         this.email = CollectionUtils.isEmpty(email) ? new ArrayList<>() : email;
@@ -60,6 +64,10 @@ public class EmployeeDetailsDTO {
         return dateOfBirth;
     }
 
+    public UUID getEmployeeId() {
+        return employeeId;
+    }
+
     public static Builder builder(){
         return new Builder();
     }
@@ -72,7 +80,7 @@ public class EmployeeDetailsDTO {
 
         Address address = AddressDTO.to(employeeDetailsDTO.getAddress());
 
-        Employee emp = new Employee(employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender(),
+        Employee emp = new Employee(employeeDetailsDTO.getEmployeeId(), employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender(),
                 address, NameDTO.to(employeeDetailsDTO.getNames()), emailList, employeeDetailsDTO.dateOfBirth, false);
         emp.getEmail().forEach(email1 -> email1.setEmployee(emp));
         emp.getAddress().setEmployee(emp);
@@ -80,6 +88,8 @@ public class EmployeeDetailsDTO {
     }
 
     public static class Builder {
+
+        private UUID employeeId;
 
         private NameDTO names;
 
@@ -92,6 +102,11 @@ public class EmployeeDetailsDTO {
         private String phoneNumber;
 
         private String dateOfBirth;
+
+        public Builder setEmployeeId(UUID employeeId) {
+            this.employeeId = employeeId;
+            return this;
+        }
 
         public Builder setNames(NameDTO names) {
             this.names = names;
@@ -124,7 +139,7 @@ public class EmployeeDetailsDTO {
         }
 
         public EmployeeDetailsDTO build(){
-            return new EmployeeDetailsDTO(this.names, this.gender, this.emailDTO, this.address, this.phoneNumber, this.dateOfBirth);
+            return new EmployeeDetailsDTO(this.employeeId, this.names, this.gender, this.emailDTO, this.address, this.phoneNumber, this.dateOfBirth);
         }
     }
 }

@@ -27,7 +27,7 @@ public class Email {
     private EmailType emailType;
 
     @ManyToOne
-    @JoinColumn(name="employee_id")
+    @JoinColumn(name="employeeId")
     private Employee employee;
 
     public Email(String emailAddress, EmailType emailType) {

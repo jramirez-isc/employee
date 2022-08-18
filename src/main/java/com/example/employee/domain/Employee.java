@@ -1,9 +1,6 @@
 package com.example.employee.domain;
 
-import com.example.employee.web.schema.AddressDTO;
-import com.example.employee.web.schema.EmailDTO;
 import com.example.employee.web.schema.EmployeeDetailsDTO;
-import org.springframework.lang.NonNull;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.CascadeType;
@@ -15,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
@@ -22,7 +20,8 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employee_id;
+    private Long id;
+    private UUID employeeId;
     private String phone;
     private String gender;
 
@@ -39,7 +38,8 @@ public class Employee {
 
     private boolean isDeleted;
 
-    public Employee(String phone, String gender, Address address, Name name, List<Email> email, String dateOfBirth, boolean isDeleted) {
+    public Employee(UUID employeeId, String phone, String gender, Address address, Name name, List<Email> email, String dateOfBirth, boolean isDeleted) {
+        this.employeeId = employeeId;
         this.phone = phone;
         this.gender = gender;
         this.email = CollectionUtils.isEmpty(email) ? new ArrayList<>() : email;
@@ -62,12 +62,12 @@ public class Employee {
         return gender;
     }
 
-    public Long getEmployee_id() {
-        return employee_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setEmployee_id(Long employee_id) {
-        this.employee_id = employee_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setPhone(String phone) {
@@ -118,8 +118,17 @@ public class Employee {
         isDeleted = deleted;
     }
 
+    public UUID getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(UUID employeeId) {
+        this.employeeId = employeeId;
+    }
+
     public static EmployeeDetailsDTO from(Employee employee){
-        return EmployeeDetailsDTO.builder().setNames(Name.from(employee.getName()))
+        return EmployeeDetailsDTO.builder().setEmployeeId(employee.getEmployeeId())
+                .setNames(Name.from(employee.getName()))
                 .setGender(employee.getGender()).setDateOfBirth(employee.getDateOfBirth()).setPhoneNumber(employee.getPhone())
                 .setAddress(Address.from(employee.getAddress()))
                 .setEmailDTO(employee.getEmail().stream().map(Email::from).collect(Collectors.toList()))

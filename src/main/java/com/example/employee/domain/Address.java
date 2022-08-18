@@ -32,7 +32,7 @@ public class Address {
     private AddressLines addressLines;
 
     @OneToOne
-    @JoinColumn(name="employee_id")
+    @JoinColumn(name="employeeId")
     private Employee employee;
 
     public Address(String city, State state, String postalCode, AddressLines addressLines) {

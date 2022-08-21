@@ -30,7 +30,11 @@ public class EmployeeDetailsDTO {
 
     private final String dateOfBirth;
 
-    private EmployeeDetailsDTO(UUID employeeId, NameDTO names, String gender, List<EmailDTO> email, AddressDTO address, String phone, String dateOfBirth) {
+    private final String designation;
+
+    private final String salary;
+
+    private EmployeeDetailsDTO(UUID employeeId, NameDTO names, String gender, List<EmailDTO> email, AddressDTO address, String phone, String dateOfBirth, String designation, String salary) {
         this.employeeId = employeeId;
         this.names = names;
         this.gender = gender;
@@ -38,6 +42,8 @@ public class EmployeeDetailsDTO {
         this.address = address;
         this.phone = phone;
         this.dateOfBirth = dateOfBirth;
+        this.designation = designation;
+        this.salary = salary;
     }
 
     public NameDTO getNames() {
@@ -72,6 +78,14 @@ public class EmployeeDetailsDTO {
         return new Builder();
     }
 
+    public String getDesignation() {
+        return designation;
+    }
+
+    public String getSalary() {
+        return salary;
+    }
+
     public static Employee to(EmployeeDetailsDTO employeeDetailsDTO){
         List<Email> emailList = Collections.emptyList();
         if(!employeeDetailsDTO.getEmail().isEmpty()){
@@ -81,7 +95,8 @@ public class EmployeeDetailsDTO {
         Address address = AddressDTO.to(employeeDetailsDTO.getAddress());
 
         Employee emp = new Employee(employeeDetailsDTO.getEmployeeId(), employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender(),
-                address, NameDTO.to(employeeDetailsDTO.getNames()), emailList, employeeDetailsDTO.dateOfBirth, false);
+                address, NameDTO.to(employeeDetailsDTO.getNames()), emailList, employeeDetailsDTO.dateOfBirth, false,
+                employeeDetailsDTO.getDesignation(), "MXN $"+employeeDetailsDTO.getSalary());
         emp.getEmail().forEach(email1 -> email1.setEmployee(emp));
         emp.getAddress().setEmployee(emp);
         return emp;
@@ -102,6 +117,10 @@ public class EmployeeDetailsDTO {
         private String phoneNumber;
 
         private String dateOfBirth;
+
+        private String designation;
+
+        private String salary;
 
         public Builder setEmployeeId(UUID employeeId) {
             this.employeeId = employeeId;
@@ -138,8 +157,18 @@ public class EmployeeDetailsDTO {
             return this;
         }
 
+        public Builder setDesignation(String designation) {
+            this.designation = designation;
+            return this;
+        }
+
+        public Builder setSalary(String salary) {
+            this.salary = salary;
+            return this;
+        }
+
         public EmployeeDetailsDTO build(){
-            return new EmployeeDetailsDTO(this.employeeId, this.names, this.gender, this.emailDTO, this.address, this.phoneNumber, this.dateOfBirth);
+            return new EmployeeDetailsDTO(this.employeeId, this.names, this.gender, this.emailDTO, this.address, this.phoneNumber, this.dateOfBirth, this.designation, this.salary);
         }
     }
 }

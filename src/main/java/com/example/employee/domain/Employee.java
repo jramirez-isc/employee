@@ -38,7 +38,11 @@ public class Employee {
 
     private boolean isDeleted;
 
-    public Employee(UUID employeeId, String phone, String gender, Address address, Name name, List<Email> email, String dateOfBirth, boolean isDeleted) {
+    private String designation;
+
+    private String salary;
+
+    public Employee(UUID employeeId, String phone, String gender, Address address, Name name, List<Email> email, String dateOfBirth, boolean isDeleted, String designation, String salary) {
         this.employeeId = employeeId;
         this.phone = phone;
         this.gender = gender;
@@ -47,6 +51,8 @@ public class Employee {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.isDeleted = isDeleted;
+        this.designation = designation;
+        this.salary = salary;
     }
 
     public Employee() {
@@ -126,12 +132,30 @@ public class Employee {
         this.employeeId = employeeId;
     }
 
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public String getSalary() {
+        return salary;
+    }
+
+    public void setSalary(String salary) {
+        this.salary = salary;
+    }
+
     public static EmployeeDetailsDTO from(Employee employee){
         return EmployeeDetailsDTO.builder().setEmployeeId(employee.getEmployeeId())
                 .setNames(Name.from(employee.getName()))
                 .setGender(employee.getGender()).setDateOfBirth(employee.getDateOfBirth()).setPhoneNumber(employee.getPhone())
                 .setAddress(Address.from(employee.getAddress()))
                 .setEmailDTO(employee.getEmail().stream().map(Email::from).collect(Collectors.toList()))
+                .setDesignation(employee.getDesignation())
+                .setSalary(employee.getSalary())
                 .build();
     }
 }

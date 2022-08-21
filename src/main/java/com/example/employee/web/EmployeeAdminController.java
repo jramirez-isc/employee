@@ -7,15 +7,19 @@ import com.example.employee.web.schema.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,11 +35,38 @@ public class EmployeeAdminController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @GetMapping(headers = "Employee-ids")
+    public ResponseEntity<List<EmployeeDetailsDTO>> getEmployeeDetails(@RequestHeader(value = "Employee-ids", defaultValue = "")List<UUID> employeeIds){
+            return new ResponseEntity<>(getEmployees(employeeIds)
+                    .stream().map(Employee::from)
+                    .collect(Collectors.toList()), HttpStatus.OK);
+    }
+
     @GetMapping
-    public ResponseEntity<List<EmployeeDetailsDTO>> getEmployeeByState(@RequestParam String state ){
-        return new ResponseEntity<>(employeeService.findByState(State.DF).stream()
+    public ResponseEntity<List<EmployeeDetailsDTO>> getEmployeesByState(@RequestParam String state ){
+        return new ResponseEntity<>(employeeService.findByState(State.valueOf(state)).stream()
                 .map(Employee::from)
                 .collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EmployeeDetailsDTO>> getEmployeesByDesignation(@RequestParam String designation){
+        return new ResponseEntity<>(employeeService.findByDesignation(designation).stream()
+                .map(Employee::from)
+                .collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @PatchMapping
+    public ResponseEntity updateEmployeeDetails(@Valid @RequestBody EmployeeDetailsDTO employeeDetailsDTO){
+        Employee employee = employeeService.updateEmployee(EmployeeDetailsDTO.to(employeeDetailsDTO));
+        return employee!=null ?
+                new ResponseEntity<>(HttpStatus.NO_CONTENT):
+                new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
+    private List<Employee> getEmployees(List<UUID> employeeIds){
+        return !CollectionUtils.isEmpty(employeeIds) ? employeeService.getEmployees(employeeIds) : employeeService.findAll();
+
     }
 
 }

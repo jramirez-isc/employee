@@ -15,4 +15,9 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request){
         return new ResponseEntity<>("email id already exists. please select a unique address.", HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity handleNotFoundException(NotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

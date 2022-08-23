@@ -17,6 +17,7 @@ public class EmployeeDetailsDTO {
     @NotNull(message = "employeeID cannot be null.")
     private final UUID employeeId;
 
+    @NotNull(message = "name cannot be null.")
     private final NameDTO names;
 
     private final String gender;

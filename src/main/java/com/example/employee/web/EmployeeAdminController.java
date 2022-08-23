@@ -3,6 +3,7 @@ package com.example.employee.web;
 import com.example.employee.domain.Employee;
 import com.example.employee.service.EmployeeService;
 import com.example.employee.web.schema.EmployeeDetailsDTO;
+import com.example.employee.web.schema.EmployeeDetailsPatchRequestDTO;
 import com.example.employee.web.schema.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,23 +43,23 @@ public class EmployeeAdminController {
                     .collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<EmployeeDetailsDTO>> getEmployeesByState(@RequestParam String state ){
+    @GetMapping(params = {"state"})
+    public ResponseEntity<List<EmployeeDetailsDTO>> getEmployeesByState(@RequestParam(name = "state", defaultValue = "") String state ){
         return new ResponseEntity<>(employeeService.findByState(State.valueOf(state)).stream()
                 .map(Employee::from)
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<EmployeeDetailsDTO>> getEmployeesByDesignation(@RequestParam String designation){
+    @GetMapping(params = {"designation"})
+    public ResponseEntity<List<EmployeeDetailsDTO>> getEmployeesByDesignation(@RequestParam(name = "designation", defaultValue = "") String designation){
         return new ResponseEntity<>(employeeService.findByDesignation(designation).stream()
                 .map(Employee::from)
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @PatchMapping
-    public ResponseEntity updateEmployeeDetails(@Valid @RequestBody EmployeeDetailsDTO employeeDetailsDTO){
-        Employee employee = employeeService.updateEmployee(EmployeeDetailsDTO.to(employeeDetailsDTO));
+    public ResponseEntity updateEmployeeDetails(@RequestHeader("Employee-id") UUID employeeId, @RequestBody EmployeeDetailsPatchRequestDTO employeeDetailspatchDTO){
+        Employee employee = employeeService.updateEmployee(EmployeeDetailsPatchRequestDTO.to(employeeId, employeeDetailspatchDTO));
         return employee!=null ?
                 new ResponseEntity<>(HttpStatus.NO_CONTENT):
                 new ResponseEntity(HttpStatus.NOT_FOUND);

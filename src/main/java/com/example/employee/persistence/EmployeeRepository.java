@@ -18,7 +18,7 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
     List<Employee> getEmployeeByDesignation(String designation);
 
-    List<Employee> findEmployeesByEmployeeIdIs(List<UUID> employeeIds);
+    List<Employee> getEmployeeByEmployeeIdIn(List<UUID> employeeIds);
 
     List<Employee> findAll();
 

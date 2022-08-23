@@ -97,7 +97,7 @@ public class EmployeeDetailsDTO {
 
         Employee emp = new Employee(employeeDetailsDTO.getEmployeeId(), employeeDetailsDTO.getPhone(), employeeDetailsDTO.getGender(),
                 address, NameDTO.to(employeeDetailsDTO.getNames()), emailList, employeeDetailsDTO.dateOfBirth, false,
-                employeeDetailsDTO.getDesignation(), "MXN $"+employeeDetailsDTO.getSalary());
+                employeeDetailsDTO.getDesignation(), employeeDetailsDTO.getSalary()!=null ? "MXN $"+employeeDetailsDTO.getSalary() : employeeDetailsDTO.getSalary());
         emp.getEmail().forEach(email1 -> email1.setEmployee(emp));
         emp.getAddress().setEmployee(emp);
         return emp;

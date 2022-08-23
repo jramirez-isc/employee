@@ -35,17 +35,17 @@ public class EmployeeDetailsPatchRequestDTO {
 
     public static Employee to(UUID employeeId, EmployeeDetailsPatchRequestDTO employeeDetailsPatchRequestDTO){
         return new Employee(employeeId,
-                Optional.ofNullable(employeeDetailsPatchRequestDTO.getPhone()).get().isPresent() ? employeeDetailsPatchRequestDTO.getPhone().get() : "",
-                Optional.ofNullable(employeeDetailsPatchRequestDTO.getGender()).get().isPresent() ? employeeDetailsPatchRequestDTO.getGender().get() : "",
+                Optional.ofNullable(employeeDetailsPatchRequestDTO.getPhone()).isPresent() ? employeeDetailsPatchRequestDTO.getPhone().get() : "",
+                Optional.ofNullable(employeeDetailsPatchRequestDTO.getGender()).isPresent() ? employeeDetailsPatchRequestDTO.getGender().get() : "",
                 AddressDTO.to(employeeDetailsPatchRequestDTO.getAddress()),
                 NameDTO.to(employeeDetailsPatchRequestDTO.getNames()),
-                Optional.ofNullable(employeeDetailsPatchRequestDTO.getEmail()).get().isPresent() ?
+                Optional.ofNullable(employeeDetailsPatchRequestDTO.getEmail()).isPresent() ?
                         employeeDetailsPatchRequestDTO.getEmail().get()
                                 .stream()
                                 .map(EmailDTO::to).collect(Collectors.toList()) : Collections.emptyList(),
-                Optional.ofNullable(employeeDetailsPatchRequestDTO.getDateOfBirth()).get().isPresent() ? employeeDetailsPatchRequestDTO.getDateOfBirth().get() : "",
-                false, Optional.ofNullable(employeeDetailsPatchRequestDTO.getDesignation()).get().isPresent() ? employeeDetailsPatchRequestDTO.getDesignation().get() : "",
-                Optional.ofNullable(employeeDetailsPatchRequestDTO.getSalary()).get().isPresent() ? employeeDetailsPatchRequestDTO.getSalary().get() : "");
+                Optional.ofNullable(employeeDetailsPatchRequestDTO.getDateOfBirth()).isPresent() ? employeeDetailsPatchRequestDTO.getDateOfBirth().get() : "",
+                false, Optional.ofNullable(employeeDetailsPatchRequestDTO.getDesignation()).isPresent() ? employeeDetailsPatchRequestDTO.getDesignation().get() : "",
+                Optional.ofNullable(employeeDetailsPatchRequestDTO.getSalary()).isPresent() ? "MXN $"+employeeDetailsPatchRequestDTO.getSalary().get() : "");
     }
 
     public NameDTO getNames() {

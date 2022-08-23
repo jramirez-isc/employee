@@ -2,20 +2,17 @@ package com.example.employee.service.impl;
 
 import com.example.employee.domain.Change;
 import com.example.employee.domain.Employee;
-import com.example.employee.domain.EmployeeHistory;
 import com.example.employee.exception.NotFoundException;
-import com.example.employee.persistence.EmployeeHistoryRepository;
 import com.example.employee.persistence.EmployeeRepository;
 import com.example.employee.service.EmployeeService;
+import com.example.employee.web.schema.EmployeeDetailsDTO;
 import com.example.employee.web.schema.State;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +38,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void createEmployee(Employee employee) {
-        employeeRepository.save(employee);
+    public EmployeeDetailsDTO createEmployee(Employee employee) {
+       return Employee.from(employeeRepository.save(employee));
     }
 
     @Override

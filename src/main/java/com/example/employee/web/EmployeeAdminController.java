@@ -32,8 +32,8 @@ public class EmployeeAdminController {
 
     @PostMapping
     public ResponseEntity<EmployeeDetailsDTO> createEmployee(@Valid @RequestBody EmployeeDetailsDTO employeeDetailsDTO){
-        employeeService.createEmployee(EmployeeDetailsDTO.to(employeeDetailsDTO));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        EmployeeDetailsDTO result = employeeService.createEmployee(EmployeeDetailsDTO.to(employeeDetailsDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @GetMapping(headers = "Employee-ids")

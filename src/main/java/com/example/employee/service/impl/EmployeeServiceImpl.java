@@ -1,7 +1,6 @@
 package com.example.employee.service.impl;
 
 import com.example.employee.domain.Change;
-import com.example.employee.domain.Email;
 import com.example.employee.domain.Employee;
 import com.example.employee.exception.NotFoundException;
 import com.example.employee.persistence.EmployeeRepository;
@@ -14,11 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

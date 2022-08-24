@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,13 +27,13 @@ public class Employee {
     private String phone;
     private String gender;
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "employee")
-    private List<Email> email;
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "employee", orphanRemoval = true)
+    private Collection<Email> email;
 
-    @OneToOne(cascade = {CascadeType.PERSIST}, mappedBy = "employee")
+    @OneToOne(cascade = {CascadeType.PERSIST}, mappedBy = "employee", orphanRemoval = true)
     private Address address;
 
-    @OneToOne(cascade = {CascadeType.PERSIST})
+    @OneToOne(cascade = {CascadeType.PERSIST}, orphanRemoval = true)
     private Name name;
 
     private String dateOfBirth;
@@ -84,11 +86,11 @@ public class Employee {
         this.gender = gender;
     }
 
-    public List<Email> getEmail() {
+    public Collection<Email> getEmail() {
         return email;
     }
 
-    public void setEmail(List<Email> email) {
+    public void setEmail(Collection<Email> email) {
         this.email = email;
     }
 

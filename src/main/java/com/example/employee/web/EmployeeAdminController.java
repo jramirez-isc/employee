@@ -57,7 +57,7 @@ public class EmployeeAdminController {
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @PatchMapping
+    @PatchMapping(headers = "Employee-id")
     public ResponseEntity updateEmployeeDetails(@RequestHeader("Employee-id") UUID employeeId, @RequestBody EmployeeDetailsPatchRequestDTO employeeDetailspatchDTO){
         Employee employee = employeeService.updateEmployee(EmployeeDetailsPatchRequestDTO.to(employeeId, employeeDetailspatchDTO));
         return employee!=null ?
@@ -67,7 +67,6 @@ public class EmployeeAdminController {
 
     private List<Employee> getEmployees(List<UUID> employeeIds){
         return !CollectionUtils.isEmpty(employeeIds) ? employeeService.getEmployees(employeeIds) : employeeService.findAll();
-
     }
 
 }

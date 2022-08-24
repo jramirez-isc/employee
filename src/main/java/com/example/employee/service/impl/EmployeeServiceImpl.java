@@ -1,6 +1,7 @@
 package com.example.employee.service.impl;
 
 import com.example.employee.domain.Change;
+import com.example.employee.domain.Email;
 import com.example.employee.domain.Employee;
 import com.example.employee.exception.NotFoundException;
 import com.example.employee.persistence.EmployeeRepository;
@@ -13,9 +14,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -57,11 +60,27 @@ public class EmployeeServiceImpl implements EmployeeService {
         String message = "";
         String finalChange = "";
         Employee existingEmployee = getEmployee(employee.getEmployeeId());
-        if(ObjectUtils.isEmpty(existingEmployee)){
+        if(ObjectUtils.isEmpty(existingEmployee)) {
             throw new NotFoundException("Employee not found but trying to update it - employeeId: " + employee.getEmployeeId());
         }
-        Employee updatedEmployee = employeeRepository.save(employee);
         Change existingData = new Change(existingEmployee.getDesignation(), existingEmployee.getSalary());
+
+        existingEmployee.setEmployeeId(employee.getEmployeeId());
+        existingEmployee.setAddress(employee.getAddress());
+        existingEmployee.setDateOfBirth(employee.getDateOfBirth());
+        existingEmployee.setDesignation(employee.getDesignation());
+        existingEmployee.setGender(employee.getGender());
+        existingEmployee.setDeleted(false);
+        existingEmployee.setName(employee.getName());
+        existingEmployee.setPhone(employee.getPhone());
+        existingEmployee.setSalary(employee.getSalary());
+        //existingEmployee.getEmail().clear();
+        existingEmployee.getEmail().addAll(employee.getEmail());
+
+        existingEmployee.getEmail().stream().forEach(email -> email.setEmployee(existingEmployee));
+        existingEmployee.getAddress().setEmployee(existingEmployee);
+
+        Employee updatedEmployee = employeeRepository.save(existingEmployee);
         Change updatedData = new Change(updatedEmployee.getDesignation(), updatedEmployee.getSalary());
         Map<String, Object> finalChangeMap = new HashMap<>();
         try {

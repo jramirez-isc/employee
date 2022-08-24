@@ -29,7 +29,7 @@ public class Employee {
     private String phone;
     private String gender;
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "employee", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "employee", orphanRemoval = true, fetch = FetchType.LAZY)
     private Collection<Email> email;
 
     @OneToOne(cascade = {CascadeType.PERSIST}, mappedBy = "employee", orphanRemoval = true)

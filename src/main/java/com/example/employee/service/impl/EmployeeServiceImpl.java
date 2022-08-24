@@ -1,15 +1,18 @@
 package com.example.employee.service.impl;
 
 import com.example.employee.domain.Change;
+import com.example.employee.domain.Email;
 import com.example.employee.domain.Employee;
 import com.example.employee.exception.NotFoundException;
 import com.example.employee.persistence.EmployeeRepository;
 import com.example.employee.service.EmployeeService;
+import com.example.employee.web.schema.EmailType;
 import com.example.employee.web.schema.EmployeeDetailsDTO;
 import com.example.employee.web.schema.State;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -56,10 +59,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee updateEmployee(Employee employee) {
         String message = "";
         String finalChange = "";
-        Employee existingEmployee = getEmployee(employee.getEmployeeId());
-        if(ObjectUtils.isEmpty(existingEmployee)) {
-            throw new NotFoundException("Employee not found but trying to update it - employeeId: " + employee.getEmployeeId());
-        }
+        Employee existingEmployee = findAll().get(0);
+
         Change existingData = new Change(existingEmployee.getDesignation(), existingEmployee.getSalary());
         employee.setId(existingEmployee.getId());
         existingEmployee.setEmployeeId(employee.getEmployeeId());
@@ -77,7 +78,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         existingEmployee.getEmail().forEach(email -> email.setEmployee(existingEmployee));
         existingEmployee.getAddress().setEmployee(existingEmployee);
 
-        Employee updatedEmployee = employeeRepository.save(employee);
+        Employee updatedEmployee = employeeRepository.save(existingEmployee);
         Change updatedData = new Change(updatedEmployee.getDesignation(), updatedEmployee.getSalary());
         Map<String, Object> finalChangeMap = new HashMap<>();
         try {

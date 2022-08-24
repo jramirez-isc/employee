@@ -2,6 +2,7 @@ package com.example.employee.domain;
 
 import com.example.employee.web.schema.AddressDTO;
 import com.example.employee.web.schema.State;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -42,14 +43,7 @@ public class Address {
         this.addressLines = addressLines;
     }
 
-    public Address(Long id, String city, State state, String postalCode) {
-        this.id = id;
-        this.city = city;
-        this.state = state;
-        this.postalCode = postalCode;
-    }
-
-    public Address() {
+    protected Address() {
     }
 
 
@@ -93,6 +87,7 @@ public class Address {
         return id;
     }
 
+    @JsonIgnore
     public Employee getEmployee() {
         return employee;
     }

@@ -21,7 +21,7 @@ public class Name {
         this.last = last;
     }
 
-    public Name() {
+    protected Name() {
     }
 
     public String getFirst() {

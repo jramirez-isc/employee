@@ -2,6 +2,7 @@ package com.example.employee.domain;
 
 import com.example.employee.web.schema.EmailDTO;
 import com.example.employee.web.schema.EmailType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +36,7 @@ public class Email {
         this.emailType = emailType;
     }
 
-    public Email() {
+    protected Email() {
     }
 
     public Long getId() {
@@ -62,6 +63,7 @@ public class Email {
         this.emailType = emailType;
     }
 
+    @JsonIgnore
     public Employee getEmployee() {
         return employee;
     }

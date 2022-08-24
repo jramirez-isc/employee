@@ -64,23 +64,23 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new NotFoundException("Employee not found but trying to update it - employeeId: " + employee.getEmployeeId());
         }
         Change existingData = new Change(existingEmployee.getDesignation(), existingEmployee.getSalary());
-
+        employee.setId(existingEmployee.getId());
         existingEmployee.setEmployeeId(employee.getEmployeeId());
         existingEmployee.setAddress(employee.getAddress());
         existingEmployee.setDateOfBirth(employee.getDateOfBirth());
         existingEmployee.setDesignation(employee.getDesignation());
         existingEmployee.setGender(employee.getGender());
-        existingEmployee.setDeleted(false);
         existingEmployee.setName(employee.getName());
         existingEmployee.setPhone(employee.getPhone());
         existingEmployee.setSalary(employee.getSalary());
-        //existingEmployee.getEmail().clear();
+        //existingEmployee.setEmail(employee.getEmail());
+        existingEmployee.getEmail().clear();
         existingEmployee.getEmail().addAll(employee.getEmail());
 
-        existingEmployee.getEmail().stream().forEach(email -> email.setEmployee(existingEmployee));
+        existingEmployee.getEmail().forEach(email -> email.setEmployee(existingEmployee));
         existingEmployee.getAddress().setEmployee(existingEmployee);
 
-        Employee updatedEmployee = employeeRepository.save(existingEmployee);
+        Employee updatedEmployee = employeeRepository.save(employee);
         Change updatedData = new Change(updatedEmployee.getDesignation(), updatedEmployee.getSalary());
         Map<String, Object> finalChangeMap = new HashMap<>();
         try {

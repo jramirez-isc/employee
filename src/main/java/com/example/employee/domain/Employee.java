@@ -1,10 +1,12 @@
 package com.example.employee.domain;
 
 import com.example.employee.web.schema.EmployeeDetailsDTO;
+import org.hibernate.annotations.Fetch;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +29,7 @@ public class Employee {
     private String phone;
     private String gender;
 
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "employee", orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "employee", orphanRemoval = true, fetch = FetchType.LAZY)
     private Collection<Email> email;
 
     @OneToOne(cascade = {CascadeType.PERSIST}, mappedBy = "employee", orphanRemoval = true)
@@ -57,9 +59,7 @@ public class Employee {
         this.salary = salary;
     }
 
-    public Employee() {
-        this.email = new ArrayList<>();
-    }
+    protected Employee() {}
 
 
     public String getPhone() {
